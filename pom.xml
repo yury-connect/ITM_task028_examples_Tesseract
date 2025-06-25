@@ -79,10 +79,28 @@
 			<version>42.7.3</version> <!-- или актуальная версия -->
 		</dependency>
 
+		<!-- Основная зависимость Tesseract -->
 		<dependency>
 			<groupId>net.sourceforge.tess4j</groupId>
 			<artifactId>tess4j</artifactId>
 			<version>5.10.0</version>
+		</dependency>
+
+		<!-- Обязательные зависимости для обработки изображений -->
+		<dependency>
+			<groupId>com.github.jai-imageio</groupId>
+			<artifactId>jai-imageio-core</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.twelvemonkeys.imageio</groupId>
+			<artifactId>imageio-jpeg</artifactId>
+			<version>3.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.twelvemonkeys.imageio</groupId>
+			<artifactId>imageio-tiff</artifactId>
+			<version>3.10.1</version>
 		</dependency>
 
 	</dependencies>

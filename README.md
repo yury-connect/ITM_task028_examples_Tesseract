@@ -41,5 +41,25 @@ docker exec -it my-postgres psql -U user -d demo_db
 
 Скачайте нужные языки (например, eng, rus) с [официального репозитория](https://github.com/tesseract-ocr/tessdata):
 
+Вот прямые ссылки для скачивания:
+- Русский язык: [rus.traineddata](https://github.com/tesseract-ocr/tessdata/raw/main/rus.traineddata)
+- Английский язык: [eng.traineddata](https://github.com/tesseract-ocr/tessdata/raw/main/eng.traineddata)
+положить в папку `src/main/resources/tessdata/`
 
+Для Linux/Mac: используйте команды в терминале:
+```bash
+mkdir -p src/main/resources/tessdata
+cd src/main/resources/tessdata
+curl -L -o eng.traineddata https://github.com/tesseract-ocr/tessdata/raw/main/eng.traineddata
+curl -L -o rus.traineddata https://github.com/tesseract-ocr/tessdata/raw/main/rus.traineddata
+```
 
+```text
+your-project/
+└── src/
+    └── main/
+        └── resources/
+            └── tessdata/
+                ├── eng.traineddata
+                └── rus.traineddata
+```

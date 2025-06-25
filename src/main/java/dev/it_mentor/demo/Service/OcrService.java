@@ -2,6 +2,7 @@ package dev.it_mentor.demo.Service;
 
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -17,7 +18,17 @@ public class OcrService {
         Tesseract tesseract = new Tesseract();
 
         // Автоматическое определение пути в ресурсах
-        tesseract.setDatapath(new File("src/main/resources").getAbsolutePath());
+//        tesseract.setDatapath(new File("src/main/resources").getAbsolutePath());
+//        tesseract.setDatapath("src/main/resources");
+        // Правильный способ указания пути к tessdata
+        ClassPathResource resource = new ClassPathResource("tessdata");
+//        tesseract.setDatapath(resource.getFile().getParent());
+
+// Для разработки можно использовать абсолютный путь
+        tesseract.setDatapath("c:/Users/Yury/IdeaProjects/IT-Mentor/ITM_tasks/ITM_task028_examples_Tesseract/src/main/resources/tessdata");
+
+        // Отключите автоматическое определение ориентации
+//        tesseract.setPageSegMode(3); // Полностью автоматический, но без ориентации
 
         // Устанавливаем язык (eng, rus, etc.)
         tesseract.setLanguage("rus+eng"); // Распознает русский и английский
@@ -29,9 +40,10 @@ public class OcrService {
         // Конвертируем файл в BufferedImage
         BufferedImage image = ImageIO.read(imageFile);
         if (image == null) {
-            throw new IOException("Не удалось прочитать изображение. Проверьте формат (PNG, JPG, BMP).");
+            throw new IOException("Не удалось прочитать изображение. Поддерживаемые форматы: PNG, JPG, BMP, TIFF");
         }
 
-        return tesseract.doOCR(imageFile);
+        // Передаём BufferedImage, а не File
+        return tesseract.doOCR(image);
     }
 }

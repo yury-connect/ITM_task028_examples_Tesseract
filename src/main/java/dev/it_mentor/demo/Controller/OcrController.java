@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 @RestController
 @RequestMapping(value = "/api/ocr")
@@ -24,21 +27,26 @@ public class OcrController {
         System.out.println("file.originalName = " + file.getOriginalFilename());
         System.out.println("file.size = " + file.getSize());
 
+        // Создаём временный файл с правильным расширением
+        String originalFilename = file.getOriginalFilename();
+        String extension = originalFilename != null ?
+                originalFilename.substring(originalFilename.lastIndexOf(".")) : ".tmp";
+        File tempFile = File.createTempFile("ocr-", extension);
 
+        try {
+            // Копируем содержимое MultipartFile во временный файл
+            file.transferTo(tempFile);
 
+            // Проверяем, можно ли прочитать изображение
+            if (ImageIO.read(tempFile) == null) {
+                throw new IOException("Неподдерживаемый формат изображения");
+            }
 
-        // Сохраняем файл временно
-        File tempFile = File.createTempFile("ocr-", ".tmp");
-        file.transferTo(tempFile);
-
-        // Распознаем текст
-        String result = ocrService.recognizeText(tempFile);
-
-        // Удаляем временный файл
-        tempFile.delete();
-
-        System.out.println(result);
-
-        return result;
+            // Распознаём текст
+            return ocrService.recognizeText(tempFile);
+        } finally {
+            // Удаляем временный файл
+            Files.deleteIfExists(tempFile.toPath());
+        }
     }
 }

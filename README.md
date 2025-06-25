@@ -2,15 +2,15 @@
 
 ---
 ## Запустите PostgreSQL в Docker
-```java
+```bash
 docker run --name my-postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=1234 -e POSTGRES_DB=demo_db -p 5432:5432 -d postgres:16
 ```
 
 ### Что делает эта команда:
-- `--name my-postgres` — имя контейнера
-- `-e POSTGRES_USER=user` — создаёт пользователя user
-- `-e POSTGRES_PASSWORD=1234` — задаёт пароль 1234
-- `-e POSTGRES_DB=demo_db` — создаёт базу данных demo_db
+- `--name my-postgres` — имя контейнера `my-postgres`
+- `-e POSTGRES_USER=user` — создаёт пользователя `user`
+- `-e POSTGRES_PASSWORD=1234` — задаёт пароль `1234`
+- `-e POSTGRES_DB=demo_db` — создаёт базу данных `demo_db`
 - `-p 5432:5432` — пробрасывает порт 5432 из контейнера на хост
 - `-d` — запуск в фоновом режиме
 - `postgres:16` — образ PostgreSQL версии 16 (можно указать другую версию)
@@ -35,3 +35,11 @@ docker exec -it my-postgres psql -U user -d demo_db
 Остановить контейнер: `docker stop my-postgres`
 Запустить снова: `docker start my-postgres`
 Удалить контейнер: `docker rm my-postgres` _(после остановки)_
+
+---
+# Скачиваем и настраиваем языковые данные для Tesseract
+
+Скачайте нужные языки (например, eng, rus) с [официального репозитория](https://github.com/tesseract-ocr/tessdata):
+
+
+

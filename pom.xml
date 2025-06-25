@@ -79,6 +79,12 @@
 			<version>42.7.3</version> <!-- или актуальная версия -->
 		</dependency>
 
+		<dependency>
+			<groupId>net.sourceforge.tess4j</groupId>
+			<artifactId>tess4j</artifactId>
+			<version>5.10.0</version>
+		</dependency>
+
 	</dependencies>
 
 

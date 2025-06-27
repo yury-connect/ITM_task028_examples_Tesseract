@@ -49,15 +49,12 @@ public class OcrService {
 
         String fileInfo = imageFile.getName() + " " + imageFile.length() + " bytes";
 //        RecognizedText recognizedText = RecognizedText.builder()
-//                .id(UUID.randomUUID())
 //                .fileInfo(fileInfo)
 //                .text(result)
-//                .recognitionDate(java.time.LocalDateTime.now())
 //                .build();
 
-        RecognizedText recognizedText = new RecognizedText();
-        recognizedText.setFileInfo(fileInfo);
-        recognizedText.setText(result);
+
+        RecognizedText recognizedText = new RecognizedText(fileInfo, result);
 
         repository.save(recognizedText);
 

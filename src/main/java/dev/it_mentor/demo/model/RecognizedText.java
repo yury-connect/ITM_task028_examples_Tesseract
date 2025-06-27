@@ -6,10 +6,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -18,11 +22,12 @@ import java.util.UUID;
 
 
 @Entity
-//@NoArgsConstructor
-//@EqualsAndHashCode(exclude = "id")
-//@ToString
-//@Getter
 @Data
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE) // Делаем конструктор приватным
+@EqualsAndHashCode(exclude = "id")
+@Builder
 @Table(name = "texttes")
 public class RecognizedText {
 
@@ -36,7 +41,7 @@ public class RecognizedText {
     @Column(name = "rt_text", columnDefinition = "TEXT")
     private String text;
 
-    @Column(name = "rt_date")
+    @Column(name = "rt_date", updatable = false)
     @CreationTimestamp
     private LocalDateTime recognitionDate;
 }

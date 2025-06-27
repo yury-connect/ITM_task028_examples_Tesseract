@@ -1,8 +1,9 @@
-package dev.it_mentor.demo.Service;
+package dev.it_mentor.demo.service;
 
+import dev.it_mentor.demo.service.processors.ImagePreprocessor;
+import dev.it_mentor.demo.service.processors.TextPostprocessor;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -14,7 +15,23 @@ import java.io.IOException;
 @Service
 public class OcrService {
 
+    private final Tesseract tesseract;
+    private final ImagePreprocessor imagePreprocessor;
+    private final TextPostprocessor textPostprocessor;
+
+
+    // Внедрение зависимостей через конструктор
+    public OcrService(Tesseract tesseract,
+                      ImagePreprocessor imagePreprocessor,
+                      TextPostprocessor textPostprocessor) {
+        this.tesseract = tesseract;
+        this.imagePreprocessor = imagePreprocessor;
+        this.textPostprocessor = textPostprocessor;
+    }
+
+
     public String recognizeText(File imageFile) throws TesseractException, IOException {
+        /*
         Tesseract tesseract = new Tesseract();
 
         // 1. Абсолютный путь к tessdata берется из classpath (автоматически)
@@ -39,5 +56,15 @@ public class OcrService {
 
         // Передаём BufferedImage, а не File
         return tesseract.doOCR(image);
+        */
+
+        BufferedImage image = ImageIO.read(imageFile);
+        if (image == null) {
+            throw new IOException("Unsupported image format");
+        }
+
+        BufferedImage processedImage = imagePreprocessor.preprocess(image);
+        String rawText = tesseract.doOCR(processedImage);
+        return textPostprocessor.process(rawText);
     }
 }

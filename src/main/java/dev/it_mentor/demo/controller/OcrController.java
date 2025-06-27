@@ -1,8 +1,8 @@
-package dev.it_mentor.demo.Controller;
+package dev.it_mentor.demo.controller;
 
-import dev.it_mentor.demo.Service.OcrService;
+import dev.it_mentor.demo.service.OcrService;
+import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.TesseractException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,18 +14,23 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+
+//@Slf4j
 @RestController
 @RequestMapping(value = "/api/ocr")
 public class OcrController {
 
-    @Autowired
-    private OcrService ocrService;
+    private final OcrService ocrService;
+
+    public OcrController(OcrService ocrService) {
+        this.ocrService = ocrService;
+    }
 
     @PostMapping("/recognize")
     public String recognizeText(@RequestParam("file") MultipartFile file) throws IOException, TesseractException {
-        System.out.println("file.name = " + file.getName());
-        System.out.println("file.originalName = " + file.getOriginalFilename());
-        System.out.println("file.size = " + file.getSize());
+//        log.info("file.name = " + file.getName());
+//        log.debug("file.originalName = " + file.getOriginalFilename());
+//        log.debug("file.size = " + file.getSize());
 
         // Создаём временный файл с правильным расширением
         String originalFilename = file.getOriginalFilename();

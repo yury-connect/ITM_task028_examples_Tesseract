@@ -35,7 +35,7 @@ public class OcrService {
     }
 
 
-    public String recognizeText(File imageFile) throws TesseractException, IOException {
+    public String recognizeText(File imageFile, String fileDescription) throws TesseractException, IOException {
 
         BufferedImage image = ImageIO.read(imageFile);
         if (image == null) {
@@ -47,14 +47,7 @@ public class OcrService {
 
         String result = textPostprocessor.process(rawText);
 
-        String fileInfo = imageFile.getName() + " " + imageFile.length() + " bytes";
-//        RecognizedText recognizedText = RecognizedText.builder()
-//                .fileInfo(fileInfo)
-//                .text(result)
-//                .build();
-
-
-        RecognizedText recognizedText = new RecognizedText(fileInfo, result);
+        RecognizedText recognizedText = new RecognizedText(fileDescription, result);
 
         repository.save(recognizedText);
 

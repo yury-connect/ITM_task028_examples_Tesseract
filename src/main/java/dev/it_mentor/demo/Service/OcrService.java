@@ -25,7 +25,8 @@ public class OcrService {
 //        tesseract.setDatapath(resource.getFile().getParent());
 
 // Для разработки можно использовать абсолютный путь
-        tesseract.setDatapath("c:/Users/Yury/IdeaProjects/IT-Mentor/ITM_tasks/ITM_task028_examples_Tesseract/src/main/resources/tessdata");
+//        tesseract.setDatapath("c:/Users/Yury/IdeaProjects/IT-Mentor/ITM_tasks/ITM_task028_examples_Tesseract/src/main/resources/tessdata");
+        tesseract.setDatapath("c:/Users/User/IdeaProjects/IT-Mentor/ITM_task028_examples_Tesseract/src/main/resources/tessdata");
 
         // Отключите автоматическое определение ориентации
 //        tesseract.setPageSegMode(3); // Полностью автоматический, но без ориентации

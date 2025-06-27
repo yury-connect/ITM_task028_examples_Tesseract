@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 import dev.it_mentor.demo.model.RecognizedText;
 
@@ -25,7 +24,6 @@ public class OcrService {
     private final RecognizedTextRepository repository;
 
 
-    // Внедрение зависимостей через конструктор
     public OcrService(Tesseract tesseract,
                       ImagePreprocessor imagePreprocessor,
                       TextPostprocessor textPostprocessor,
@@ -57,17 +55,9 @@ public class OcrService {
 //                .recognitionDate(java.time.LocalDateTime.now())
 //                .build();
 
-//        RecognizedText recognizedText = new RecognizedText(
-//                UUID.randomUUID(),
-//                fileInfo,
-//                result,
-//                java.time.LocalDateTime.now()
-
         RecognizedText recognizedText = new RecognizedText();
-//        recognizedText.setId(UUID.randomUUID());
-//        recognizedText.setFileInfo(fileInfo);
-//        recognizedText.setText(result);
-//        recognizedText.setRecognitionDate(java.time.LocalDateTime.now());
+        recognizedText.setFileInfo(fileInfo);
+        recognizedText.setText(result);
 
         repository.save(recognizedText);
 

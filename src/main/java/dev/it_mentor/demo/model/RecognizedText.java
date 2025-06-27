@@ -23,7 +23,6 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE) // Делаем конструктор приватным
 @EqualsAndHashCode(exclude = "id")
@@ -44,5 +43,29 @@ public class RecognizedText {
     @Column(name = "rt_date", updatable = false)
     @CreationTimestamp
     private LocalDateTime recognitionDate;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getFileInfo() {
+        return fileInfo;
+    }
+
+    public void setFileInfo(String fileInfo) {
+        this.fileInfo = fileInfo;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public LocalDateTime getRecognitionDate() {
+        return recognitionDate;
+    }
 }
 

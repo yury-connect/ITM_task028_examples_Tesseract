@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 
-//@Slf4j
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/ocr")
 public class OcrController {

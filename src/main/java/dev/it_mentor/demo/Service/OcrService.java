@@ -17,19 +17,12 @@ public class OcrService {
     public String recognizeText(File imageFile) throws TesseractException, IOException {
         Tesseract tesseract = new Tesseract();
 
-        // Автоматическое определение пути в ресурсах
-//        tesseract.setDatapath(new File("src/main/resources").getAbsolutePath());
-//        tesseract.setDatapath("src/main/resources");
-        // Правильный способ указания пути к tessdata
-        ClassPathResource resource = new ClassPathResource("tessdata");
-//        tesseract.setDatapath(resource.getFile().getParent());
+        // 1. Абсолютный путь к tessdata берется из classpath (автоматически)
+        // Файлы будут в target/classes/tessdata благодаря maven-dependency-plugin
+        String tessDataPath = new File("target/classes/tessdata").getAbsolutePath();
+        tesseract.setDatapath(tessDataPath);
 
-// Для разработки можно использовать абсолютный путь
-//        tesseract.setDatapath("c:/Users/Yury/IdeaProjects/IT-Mentor/ITM_tasks/ITM_task028_examples_Tesseract/src/main/resources/tessdata");
-        tesseract.setDatapath("c:/Users/User/IdeaProjects/IT-Mentor/ITM_task028_examples_Tesseract/src/main/resources/tessdata");
-
-        // Отключите автоматическое определение ориентации
-//        tesseract.setPageSegMode(3); // Полностью автоматический, но без ориентации
+//        tesseract.setPageSegMode(3); // Отключите автоматическое определение ориентации/ без ориентации
 
         // Устанавливаем язык (eng, rus, etc.)
         tesseract.setLanguage("rus+eng"); // Распознает русский и английский

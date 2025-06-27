@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -28,6 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<tess4j.version>5.10.0</tess4j.version>
 	</properties>
 
 
@@ -67,23 +68,17 @@
 			<scope>test</scope>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>org.postgresql</groupId>-->
-<!--			<artifactId>postgresql</artifactId>-->
-<!--			<scope>runtime</scope>-->
-<!--		</dependency>-->
-
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.3</version> <!-- или актуальная версия -->
+			<version>42.7.3</version>
 		</dependency>
 
 		<!-- Основная зависимость Tesseract -->
 		<dependency>
 			<groupId>net.sourceforge.tess4j</groupId>
 			<artifactId>tess4j</artifactId>
-			<version>5.10.0</version>
+			<version>${tess4j.version}</version>
 		</dependency>
 
 		<!-- Обязательные зависимости для обработки изображений -->
@@ -101,6 +96,14 @@
 			<groupId>com.twelvemonkeys.imageio</groupId>
 			<artifactId>imageio-tiff</artifactId>
 			<version>3.10.1</version>
+		</dependency>
+
+		<!-- Дополнительная зависимость для tessdata -->
+		<dependency>
+			<groupId>net.sourceforge.tess4j</groupId>
+			<artifactId>tess4j</artifactId>
+			<version>${tess4j.version}</version>
+			<classifier>with-tessdata</classifier>
 		</dependency>
 
 	</dependencies>
@@ -133,7 +136,51 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<!-- Плагин для копирования tessdata -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.6.1</version>
+				<executions>
+					<execution>
+						<id>copy-tessdata</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/classes/tessdata</outputDirectory>
+							<includeArtifactIds>tess4j</includeArtifactIds>
+							<includeClassifiers>with-tessdata</includeClassifiers>
+							<includeTypes>jar</includeTypes>
+							<stripVersion>true</stripVersion>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Плагин для распаковки tessdata из JAR -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<unzip src="${project.build.directory}/classes/tessdata/tess4j-with-tessdata.jar"
+									   dest="${project.build.directory}/classes/tessdata"/>
+								<delete file="${project.build.directory}/classes/tessdata/tess4j-with-tessdata.jar"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>

@@ -10,13 +10,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Generated;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenerationTime;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -30,9 +28,9 @@ import java.util.UUID;
 @Builder
 public class RecognizedText {
 
-    public RecognizedText (String fileInfo, String text) {
+    public RecognizedText (String fileInfo, String content) {
         this.fileInfo = fileInfo;
-        this.text = text;
+        this.content = content;
     }
 
     @Id
@@ -45,10 +43,10 @@ public class RecognizedText {
     @ToString.Include
     private String fileInfo;
 
-    @Column(name = "rt_text", columnDefinition = "TEXT")
+    @Column(name = "rt_content", columnDefinition = "TEXT")
     @EqualsAndHashCode.Include
     @ToString.Include
-    private String text;
+    private String content;
 
     @Column(name = "rt_date", updatable = false, columnDefinition = "TIMESTAMP(0)")
     @CreationTimestamp
@@ -58,7 +56,7 @@ public class RecognizedText {
     private LocalDateTime recognitionDate;
 
 
-
+/*
     public UUID getId() {
         return id;
     }
@@ -70,16 +68,16 @@ public class RecognizedText {
         this.fileInfo = fileInfo;
     }
 
-    public String getText() {
-        return text;
+    public String getContent() {
+        return content;
     }
-    public void setText(String text) {
-        this.text = text;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public LocalDateTime getRecognitionDate() {
         return recognitionDate;
     }
-
+    */
 }
 

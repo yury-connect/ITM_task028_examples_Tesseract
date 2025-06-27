@@ -28,14 +28,19 @@ public class OcrController {
 
     @PostMapping("/recognize")
     public String recognizeText(@RequestParam("file") MultipartFile file) throws IOException, TesseractException {
-//        log.info("file.name = " + file.getName());
-//        log.debug("file.originalName = " + file.getOriginalFilename());
-//        log.debug("file.size = " + file.getSize());
+//        log.info("file.name = " + file.getOriginalFilename());
+//        log.info("file.originalName = " + file.getOriginalFilename());
+//        log.info("file.size = " + file.getSize());
+
+        StringBuilder fileDescription = new StringBuilder();
+        fileDescription.append("file.name = " + file.getOriginalFilename() + "; ");
+        fileDescription.append("file.size = " + file.getSize() + "; ");
+        fileDescription.append("file.contentType = " + file.getContentType() + "; ");
+
 
         // Создаём временный файл с правильным расширением
         String originalFilename = file.getOriginalFilename();
-        String extension = originalFilename != null ?
-                originalFilename.substring(originalFilename.lastIndexOf(".")) : ".tmp";
+        String extension = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf(".")) : ".tmp";
         File tempFile = File.createTempFile("ocr-", extension);
 
         try {
